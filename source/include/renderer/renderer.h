@@ -32,7 +32,7 @@ double k;
 #define coef 1.1f
 #endif
 #ifdef CONFIG_MOUSE_CALLBACK_ENABLE
-void (*mouse_callback) (int x, int y, int state);
+void (*mouse_callback) (int x, int y, int state) = NULL;
 int setMouseCallback(void (*func)(int,int,int));
 #endif
 double dx, dy;

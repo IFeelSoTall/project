@@ -35,9 +35,6 @@ int rendererInit(int argc, char** argv)
 	glutMouseFunc(mouse);
 	glutIdleFunc(displayMe);
 	glutMotionFunc(motion);
-#ifdef CONFIG_MOUSE_CALLBACK_ENABLE
-	mouse_callback = NULL;
-#endif
 	width = DEFAULT_WIDTH;
 	height = DEFAULT_HEIGHT;
 	dx = 0;

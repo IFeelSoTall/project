@@ -8,6 +8,11 @@ png_byte color_type;
 png_byte bit_depth;
 png_bytep *row_pointers;
 
+/*void mouses(int x, int y, int state)
+{
+	printf("MOUSE LOOL\n");
+}*/
+
 void read_png_file(char *filename) {
 	FILE *fp = fopen(filename, "rb");
 
@@ -115,6 +120,7 @@ int main(int argc, char** argv)
 		return 0; 
 	read_png_file(argv[1]);
 	setImage(row_pointers, width, height);
+//	setMouseCallback(&mouses);
 	rendererInit(argc, argv);
 	return 0;
 }
