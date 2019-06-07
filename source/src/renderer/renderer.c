@@ -93,10 +93,14 @@ void mouse(int button, int state,int x, int y)
 		if (state == GLUT_UP)
 		{
 			rightMouseDown = 0;
-			#ifdef CONFIG_PAINT_MODE
+#ifdef CONFIG_PAINT_MODE
+#ifdef CONFIG_MOUSE_SCROLL_MODE
+			addPointToArray((x - dx)/k, (height - dy - y)/k , 1);
+#else
 			addPointToArray(x - dx, height - dy - y , 1);
-			printf("addPointToArray x = %f y = %f\n", x - dx, height - dy - y);
-			#endif
+#endif
+			//printf("addPointToArray x = %f y = %f\n", x - dx, height - dy - y);
+#endif
 		}
 	}else
 	{
@@ -136,9 +140,13 @@ void motion(int x, int y)
 	}else
 	if (rightState)
 	{
-		#ifdef CONFIG_PAINT_MODE
+#ifdef CONFIG_PAINT_MODE
+#ifdef CONFIG_MOUSE_SCROLL_MODE
+		addPointToArray((x - dx)/k, (height - dy - y)/k , 1);
+#else
 		addPointToArray(x - dx, height - dy - y , 1);
-		#endif
+#endif
+#endif
 	}
 
 }
