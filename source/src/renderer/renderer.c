@@ -35,6 +35,9 @@ int rendererInit(int argc, char** argv)
 	glutMouseFunc(mouse);
 	glutIdleFunc(displayMe);
 	glutMotionFunc(motion);
+#ifdef CONFIG_MOUSE_CALLBACK_ENABLE
+	mouse_callback = NULL;
+#endif
 	width = DEFAULT_WIDTH;
 	height = DEFAULT_HEIGHT;
 	dx = 0;
@@ -76,23 +79,36 @@ void mouse(int button, int state,int x, int y)
 			leftMouseDown = 1;
 			lastMouseX = x;
 			lastMouseY = y;
-			
-		}else
-		if (state == GLUT_UP)
+#ifdef CONFIG_MOUSE_CALLBACK_ENABLE
+			if (mouse_callback)
+				mouse_callback(x,y,LEFT_MOUSE_DOWN);
+#endif
+		}else if (state == GLUT_UP)
 		{
 			leftMouseDown = 0;
+#ifdef CONFIG_MOUSE_CALLBACK_ENABLE
+			if (mouse_callback)
+				mouse_callback(x,y,LEFT_MOUSE_UP);
+#endif
 		}
-	}else
-	if (button == GLUT_RIGHT_BUTTON)
+	}else if (button == GLUT_RIGHT_BUTTON)
 	{
 		if (state == GLUT_DOWN)
 		{
 			rightMouseDown = 1;
+#ifdef CONFIG_MOUSE_CALLBACK_ENABLE
+			if (mouse_callback)
+				mouse_callback(x,y,RIHGT_MOUSE_DOWN);
+#endif
 			
 		}else
 		if (state == GLUT_UP)
 		{
 			rightMouseDown = 0;
+#ifdef CONFIG_MOUSE_CALLBACK_ENABLE
+			if (mouse_callback)
+				mouse_callback(x,y,RIHGT_MOUSE_UP);
+#endif
 #ifdef CONFIG_PAINT_MODE
 #ifdef CONFIG_MOUSE_SCROLL_MODE
 			addPointToArray((x - dx)/k, (height - dy - y)/k , 1);
@@ -209,3 +225,13 @@ void displayMe(void)
 	glFlush();
 	glutSwapBuffers();
 }
+
+#ifdef CONFIG_MOUSE_CALLBACK_ENABLE
+int setMouseCallback(void (*func)(int,int,int))
+{
+	if (!mouse_callback)
+		mouse_callback = func;
+	else return 0;
+	return 1;
+}
+#endif
