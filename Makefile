@@ -27,6 +27,7 @@ build : source/
 	make -C build ROOT_DIR=$(ROOT_DIR)
 	mkdir bin
 	find build  \( -name "*.so" -o  -name "*.out" \)  -exec cp {} bin/ \;
+	cp -r build/resources/ bin/resources
 	
 	
 	
