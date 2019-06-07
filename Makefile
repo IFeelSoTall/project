@@ -18,12 +18,15 @@ all:clean build
 
 clean :
 	rm -rf build/
+	rm -rf bin/
 
 build : source/
 	echo $(ROOT_DIR)
 	mkdir build
 	cp source/* build/ -r
 	make -C build ROOT_DIR=$(ROOT_DIR)
+	mkdir bin
+	find build  \( -name "*.so" -o  -name "*.out" \)  -exec cp {} bin/ \;
 	
 	
 	
