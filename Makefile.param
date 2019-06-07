@@ -1,0 +1,5 @@
+ROOT_DIR:=$(shell pwd)/build
+#export ROOT_DIR;
+yes:=$(shell export ROOT_DIR="$(ROOT_DIR)");
+echo $(ROOT_DIR)
+$(yes);
