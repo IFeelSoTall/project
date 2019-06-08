@@ -15,6 +15,12 @@ enum MOUSE_STATE
 };
 #endif
 
+enum DRAW_MODE
+{
+	POINTS_MODE = 0,
+	SQUARE_MODE
+};
+
 struct point
 {
 	int x;
@@ -44,3 +50,4 @@ unsigned char rightMouseDown;
 unsigned char **row_pointers;
 int rendererInit(int argc, char** argv);
 void setImage(unsigned char **row, int w, int h);
+void setDrawMode(int mode);

@@ -1,6 +1,14 @@
 #include<renderer.h>
 #include<stdio.h>
 
+static int draw_mode = 0;
+
+void setDrawMode(int mode);
+static void reshape(int w, int h);
+static void mouse(int button, int state,int x, int y);
+static void motion(int x, int y);
+static void displayMe(void);
+
 #ifdef CONFIG_PAINT_MODE
 void addPointToArray(int x, int y, char use)
 {
@@ -163,12 +171,6 @@ static void motion(int x, int y)
 	}
 
 }
-void setImage(unsigned char **row, int w, int h)
-{
-	row_pointers = row;
-	imageWidth = w;
-	imageHeight = h;
-}
 
 static void displayMe(void)
 {
@@ -182,25 +184,53 @@ static void displayMe(void)
 #else
 	glTranslated(dx, dy, 0);
 #endif
-	glBegin(GL_POINTS);
-
-	if (row_pointers != NULL)
+	if (draw_mode == POINTS_MODE)
 	{
-		for(int y = 0; y < imageHeight; y++) 
+		glBegin(GL_POINTS);
+	
+		if (row_pointers != NULL)
 		{
-			unsigned char* row = row_pointers[y];
-			for(int x = 0; x < imageWidth; x++) 
+			for(int y = 0; y < imageHeight; y++) 
 			{
-				unsigned char* px = &(row[x * 4]);
-				glColor4f((float)px[0]/255.0f, (float)px[1]/255.0f,(float)px[2]/255.0f,(float)px[3]/255.0f);
-				//glColor4b(px[0], px[1],px[2],px[3]);//прекол
-				glVertex2i(x, (imageHeight - y));
-				// Do something awesome for each pixel here...
-				//printf("%4d, %4d = RGBA(%d, %d, %d, %d)\n", x, y, px[0], px[1], px[2], (float)px[3]/255.0f);
+				unsigned char* row = row_pointers[y];
+				for(int x = 0; x < imageWidth; x++) 
+				{
+					unsigned char* px = &(row[x * 4]);
+					glColor4f((float)px[0]/255.0f, (float)px[1]/255.0f,(float)px[2]/255.0f,(float)px[3]/255.0f);
+					//glColor4b(px[0], px[1],px[2],px[3]);//прекол
+					glVertex2i(x, (imageHeight - y));
+					// Do something awesome for each pixel here...
+					//printf("%4d, %4d = RGBA(%d, %d, %d, %d)\n", x, y, px[0], px[1], px[2], (float)px[3]/255.0f);
+				}
 			}
 		}
+		glEnd();
+	}else
+	if (draw_mode == SQUARE_MODE)
+	{
+		glBegin(GL_QUADS);
+	
+		if (row_pointers != NULL)
+		{
+			for(int y = 0; y < imageHeight; y++) 
+			{
+				unsigned char* row = row_pointers[y];
+				for(int x = 0; x < imageWidth; x++) 
+				{
+					unsigned char* px = &(row[x * 4]);
+					glColor4f((float)px[0]/255.0f, (float)px[1]/255.0f,(float)px[2]/255.0f,(float)px[3]/255.0f);
+					//glColor4b(px[0], px[1],px[2],px[3]);//прекол
+					glVertex2i(x, (imageHeight - y));
+					glVertex2i(x+1, (imageHeight - y));
+					glVertex2i(x+1, (imageHeight - y)+1);
+					glVertex2i(x, (imageHeight - y)+1);
+					// Do something awesome for each pixel here...
+					//printf("%4d, %4d = RGBA(%d, %d, %d, %d)\n", x, y, px[0], px[1], px[2], (float)px[3]/255.0f);
+				}
+			}
+		}
+		glEnd();
 	}
-	glEnd();
 
 	#ifdef CONFIG_PAINT_MODE
 	glBegin(GL_LINES);
@@ -232,3 +262,15 @@ int setMouseCallback(void (*func)(int,int,int))
 	return 1;
 }
 #endif
+
+void setDrawMode(int mode)
+{
+	draw_mode = mode;
+}
+
+void setImage(unsigned char **row, int w, int h)
+{
+	row_pointers = row;
+	imageWidth = w;
+	imageHeight = h;
+}

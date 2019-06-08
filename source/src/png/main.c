@@ -120,6 +120,7 @@ int main(int argc, char** argv)
 		return 0; 
 	read_png_file(argv[1]);
 	setImage(row_pointers, width, height);
+	setDrawMode(SQUARE_MODE);
 //	setMouseCallback(&mouses);
 	rendererInit(argc, argv);
 	return 0;
