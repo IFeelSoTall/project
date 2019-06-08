@@ -43,8 +43,4 @@ unsigned char rightMouseDown;
 //png_bytep *row_pointers;
 unsigned char **row_pointers;
 int rendererInit(int argc, char** argv);
-void displayMe(void);
-void reshape(int w, int h);
 void setImage(unsigned char **row, int w, int h);
-void mouse(int button, int state,int x, int y);// UP, DOWN buttons
-void motion(int x, int y);

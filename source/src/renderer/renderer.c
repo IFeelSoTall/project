@@ -53,7 +53,7 @@ int rendererInit(int argc, char** argv)
 }
 
 
-void reshape(int w, int h)
+static void reshape(int w, int h)
 {
 	glViewport(0, 0, w, h);
   
@@ -67,7 +67,7 @@ void reshape(int w, int h)
 	height = h;
 }
 
-void mouse(int button, int state,int x, int y)
+static void mouse(int button, int state,int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
 	{
@@ -141,7 +141,7 @@ void mouse(int button, int state,int x, int y)
 		}
 	}
 }
-void motion(int x, int y)
+static void motion(int x, int y)
 {
 	unsigned char leftState = leftMouseDown, rightState = rightMouseDown;
 	if (leftState)
@@ -170,7 +170,7 @@ void setImage(unsigned char **row, int w, int h)
 	imageHeight = h;
 }
 
-void displayMe(void)
+static void displayMe(void)
 {
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
